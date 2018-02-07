@@ -1,7 +1,11 @@
 /**Global imports */
-import React from 'react';
+import * as React from 'react';
 
-const Delete = props =>{
+export interface DeleteProps{
+  data:number;
+  handleDelete:any;
+}
+const Delete =( props:DeleteProps) =>{
   return (
     <button className="button btn-danger" 
     value={props.data}

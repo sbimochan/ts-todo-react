@@ -1,5 +1,5 @@
-/**Global imports */
-import * as Axios from 'axios';
+/** Global imports */
+import Axios from 'axios';
 import * as HttpStatus from 'http-status-codes';
 
 let instance = Axios.create({
@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 
 // Add a response interceptor
 instance.interceptors.response.use(
-  (response) => response,
+  (response: any) => response,
   (error) => {
     if (
       error.response.status === HttpStatus.UNAUTHORIZED &&
@@ -37,7 +37,10 @@ instance.interceptors.response.use(
     ) {
       return instance
         .get('refresh', getTokenHeader('refreshToken'))
-        .then((response) => {
+        .then((response: {
+          status: number;
+          data: {};
+        }) => {
           if (response.status === HttpStatus.OK) {
             let config = { ...error.config };
             localStorage.setItem('accessToken', response.data['accessToken']);
@@ -47,8 +50,9 @@ instance.interceptors.response.use(
               .then((response) => response)
               .catch((err) => err);
           }
+          return false;
         })
-        .catch((err) => console.log('INVALID REFRESH TOKEN!'));
+        .catch((err) => 'INVALID REFRESH TOKEN!');
     }
     return Promise.reject(error);
   }

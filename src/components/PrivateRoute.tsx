@@ -7,10 +7,10 @@ import { Route, Redirect } from 'react-router-dom';
  * @param {*} param0
  */
 
-const PrivateRoute = ({ component: Component, state, ...rest }) => {
+const PrivateRoute = ({ component: Component, state, path }) => {
   return (
     <Route
-    {...rest}
+    {...path}
     render={(props) =>
         state.isAuth === true ? (
           <Component {...props} />

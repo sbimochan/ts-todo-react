@@ -1,5 +1,5 @@
 /**Global imports */
-import React from 'react';
+import * as React from 'react';
 
 const Search = props => {
   return (

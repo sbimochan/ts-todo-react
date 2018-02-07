@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from 'moment';
 
 const initialState = {
   todoList: [],
@@ -13,7 +13,7 @@ const initialState = {
   pageCount: 1,
   tagsRelated: [],
   userId: null,
-  isAuth: JSON.parse(localStorage.getItem('isAuth')),
+  isAuth: JSON.parse(localStorage.getItem('isAuth') || '{}'),
   startDate: moment(),
 };
 export const DragTypes = {
