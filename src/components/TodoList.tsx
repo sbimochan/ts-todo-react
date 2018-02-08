@@ -30,15 +30,15 @@ export interface Props {
   reorderTodo: any;
   index: number;
   tagLink: any;
-  connectDropTarget;
-  connectDragPreview;
-  connectDragSource;
+  connectDropTarget: any;
+  connectDragPreview: any;
+  connectDragSource: any;
   handleDelete(event: {}): void;
   handleEdit(event: {}): void;
 
 }
 
-function User(props) {
+function User(props: any) {
   return (
     <div>
       {' '}
@@ -47,11 +47,11 @@ function User(props) {
   );
 }
 
-function Description(props) {
+function Description(props: any) {
   return <article>{props.description}</article>;
 }
 
-function Date(props) {
+function Date(props: any) {
   return <p>{props.date}</p>;
 }
 
@@ -64,17 +64,17 @@ const itemSource = {
 };
 
 const itemTarget = {
-  canDrop(props: Props, monitor: {}) {
+  canDrop(props: Props, monitor: any) {
     return true;
   },
 
-  drop(props: Props, monitor: { getItem: any }) {
+  drop(props: Props, monitor: any) {
     let monitorItem = monitor.getItem();
     props.reorderTodo(monitorItem.id, props.index);
   }
 };
 
-function dropCollect(connect, monitor) {
+function dropCollect(connect: any, monitor: any) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
@@ -82,7 +82,7 @@ function dropCollect(connect, monitor) {
   };
 }
 
-function dragCollect(connect, monitor) {
+function dragCollect(connect: any, monitor: any) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
@@ -111,16 +111,18 @@ const TodoList = (props: Props) => {
             <Edit data={props.data} handleEdit={props.handleEdit} />
           </div>
           <ul className="tagsList">
-            {props.data.tags.map((tag, index: number) => (
-              <li
-                className="tag"
-                key={index}
-                value={tag.id}
-                onClick={props.tagLink}
-              >
-                {tag.tagName}
-              </li>
-            ))}
+            {props.data.tags.map((tag: {
+              id: number;
+              tagName: string; }, index: number) => (
+                <li
+                  className="tag"
+                  key={index}
+                  value={tag.id}
+                  onClick={props.tagLink}
+                >
+                  {tag.tagName}
+                </li>
+              ))}
           </ul>
         </div>
       )

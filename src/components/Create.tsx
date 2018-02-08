@@ -27,10 +27,19 @@ export interface CreateProps {
   handleSubmit(event: {}): void;
 }
 
-function Input(props: any) {
+function Input(props: {
+  type: string;
+  name: string;
+  value: number;
+  onChange(event: {}): void;
+}) {
   return <input {...props} />;
 }
-function DatePickerInterface(props: any){
+function DatePickerInterface(props: {
+  selected: Momentdd;
+  placeholderText: string;
+  onChange(event: any): void;
+}) {
   return <DatePicker {...props} />;
 }
 // export interface CreateInterface {

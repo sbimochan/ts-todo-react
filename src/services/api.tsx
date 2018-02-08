@@ -37,7 +37,7 @@ export function logout(page: string) {
   let encodedURI = window.encodeURI(baseurl + page);
   return instance
     .get(encodedURI, getTokenHeader('refreshToken'))
-    .then((response: { data: {} }) => {
+    .then((response: { data: string }) => {
       if (response.data === 'OK') {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');

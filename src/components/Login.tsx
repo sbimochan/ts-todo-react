@@ -45,9 +45,8 @@ const Login = (props: Props) => {
   };
 
   if (props.isAuth === 'true') {
-    return <Redirect to='/todo' />;
-  }
-  else {
+    return <Redirect to="/todo" />;
+  } else {
     return <LoginForm handleLogin={handleLogin} />;
   }
 };

@@ -1,4 +1,4 @@
-/**Global imports */
+/** Global imports */
 import * as React from 'react';
 
 export const UpdateBox = props => {

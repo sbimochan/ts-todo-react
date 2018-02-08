@@ -12,6 +12,6 @@ const TagsRelated = props => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 export default TagsRelated;

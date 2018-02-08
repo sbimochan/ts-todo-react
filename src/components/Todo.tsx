@@ -38,15 +38,18 @@ export interface TodoProps {
   description: string;
   togglePopUp: boolean;
   tagsRelated: number[];
-  handlePageClick(event: {}):void;
+  handlePageClick(event: {}): void;
 }
 
 function ReactPaginateInterface(props: any) {
   return <ReactPaginate {...props} />;
 }
 
-function CreateProps(props: any){
+function CreateProps(props: any) {
   return <Create {...props} />;
+}
+function TodoListInterface(props: any) {
+  return <TodoList {...props} />;
 }
 // interface X {
 //   id: number;
@@ -58,28 +61,30 @@ class Todo extends React.Component<TodoProps, any> {
   handleLogout = event => {
     ApiServices.logout('logout');
     this.props.dispatch(todoActions.isAuth(false));
-  };
+  }
+
   getTodoId = (id: number) => this.props.dispatch(todoActions.getTodoId(id));
-  editTodo = (todoData: {}) =>
-    this.props.dispatch(todoActions.editTodo(todoData));
+  
+  editTodo = (todoData: {}) => this.props.dispatch(todoActions.editTodo(todoData));
+
   onChangeTodoList = (todoList: number[]) =>
-    this.props.dispatch(todoActions.changeTodoList(todoList));
+    this.props.dispatch(todoActions.changeTodoList(todoList))
   handleInputChange = (event: any) =>
-    this.props.dispatch(todoActions.changeDescription(event.target.value));
+    this.props.dispatch(todoActions.changeDescription(event.target.value))
   handleInputChangeOfUpdate = (event: any) =>
-    this.props.dispatch(todoActions.editTodo(event.target.value));
+    this.props.dispatch(todoActions.editTodo(event.target.value))
   handleDatePicker = (date: any) =>
-    this.props.dispatch(todoActions.changeDatePicker(date));
+    this.props.dispatch(todoActions.changeDatePicker(date))
   handleSubmit = (event: any) => {
     event.preventDefault();
     ApiServices.addTodo('users/' + this.userId + '/todo', this.props).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        todoList => {
+        (todoList: { todo: number[] }) => {
           this.onChangeTodoList(todoList.todo);
         }
       )
     );
-  };
+  }
 
   handleSearch = (event: any) => {
     event.preventDefault();
@@ -96,7 +101,7 @@ class Todo extends React.Component<TodoProps, any> {
       this.props.dispatch(todoActions.changeTodoList(result.todo));
       this.props.dispatch(todoActions.pageCount(result.pagination.pageCount));
     });
-  };
+  }
 
   handleDelete = (event: any) => {
     event.preventDefault();
@@ -106,22 +111,22 @@ class Todo extends React.Component<TodoProps, any> {
       event.target.value
     ).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        todoList => {
+        (todoList: { todo: number[] }) => {
           this.onChangeTodoList(todoList.todo);
         }
       )
-      );
-  };
+    );
+  }
 
   handleEdit = (event: any) => {
     event.preventDefault();
     this.getTodoId(event.target.dataset.key);
     this.getData(event.target.value);
     this.props.dispatch(todoActions.changeTogglePopUp(true));
-  };
+  }
   reorderTodo = (itemId: number, index: string) => {
     this.props.dispatch(todoActions.reorderItem(itemId, index));
-  };
+  }
   handleUpdate = (event: any) => {
     event.preventDefault();
     const formatData = {
@@ -133,20 +138,20 @@ class Todo extends React.Component<TodoProps, any> {
       formatData
     ).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        todoList => {
+        (todoList: { todo: number[] }) => {
           this.onChangeTodoList(todoList.todo);
           this.props.dispatch(todoActions.changeTogglePopUp(false));
         }
       )
-      );
-  };
-  
+    );
+  }
+
   reorderList = (array: any, value: number, positionChange: number) => {
     let oldIndex = array.findIndex(x => x.id === value);
     let arrayClone = array.slice();
     arrayClone.splice(positionChange, 0, arrayClone.splice(oldIndex, 1)[0]);
     return arrayClone;
-  };
+  }
 
   handlePageClick = (data: {
     selected: string;
@@ -160,8 +165,9 @@ class Todo extends React.Component<TodoProps, any> {
       todo: string[];
     }) =>
       this.props.dispatch(todoActions.changeTodoList(result.todo))
-      );
-  };
+    );
+  }
+
   componentDidMount() {
     ApiServices.fetchPages('users/' + this.userId + '/todo').then(todoList => {
       this.props.dispatch(todoActions.changeTodoList(todoList.todo));
@@ -180,7 +186,8 @@ class Todo extends React.Component<TodoProps, any> {
     }) =>
       this.props.dispatch(todoActions.tagsRelated(todos.data.todos))
     );
-  };
+  }
+
   checkboxChange = (event: any) => {
     const tags = this.props.tags;
     let index;
@@ -191,7 +198,7 @@ class Todo extends React.Component<TodoProps, any> {
       tags.splice(index, 1);
     }
     this.props.dispatch(todoActions.checkboxChange(tags));
-  };
+  }
 
   render() {
     BigCalendar.momentLocalizer(moment);
@@ -218,8 +225,8 @@ class Todo extends React.Component<TodoProps, any> {
         <div className="todoCount">
           Todo count:<span className="badge">{this.props.todoList.length}</span>
         </div>
-        {this.props.todoList.map((data, index) => (
-          <TodoList
+        {this.props.todoList.map((data: {}, index: number) => (
+          <TodoListInterface
             data={data}
             index={index}
             key={index}

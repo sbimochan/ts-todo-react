@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
     case 'CHANGE_DATE_PICKER':
       return { ...state, startDate: action.payload };
     case 'REORDER_ITEM':
-      return { ...state, todoList: reorderList([...state.todoList], action.id, action.index) }
+      return { ...state, todoList: reorderList([...state.todoList], action.id, action.index) };
     default:
       return state;
   }

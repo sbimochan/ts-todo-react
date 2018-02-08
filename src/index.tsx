@@ -30,7 +30,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <div>
-        <Route exact path="/" component={Login} />
+        <Route exact={true} path="/" component={Login} />
         <PrivateRoute path="/todo" component={Todo} />
       </div>
     </BrowserRouter>

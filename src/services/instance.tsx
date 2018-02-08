@@ -39,15 +39,17 @@ instance.interceptors.response.use(
         .get('refresh', getTokenHeader('refreshToken'))
         .then((response: {
           status: number;
-          data: {};
+          data: {
+            accessToken: string;
+          };
         }) => {
           if (response.status === HttpStatus.OK) {
             let config = { ...error.config };
-            localStorage.setItem('accessToken', response.data['accessToken']);
+            localStorage.setItem('accessToken', response.data.accessToken);
             config.headers = getTokenHeader('accessToken').headers;
             return instance
               .request(config)
-              .then((response) => response)
+              .then((response2) => response2)
               .catch((err) => err);
           }
           return false;

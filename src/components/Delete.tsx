@@ -1,4 +1,4 @@
-/**Global imports */
+/** Global imports */
 import * as React from 'react';
 
 export interface DeleteProps {
@@ -7,9 +7,12 @@ export interface DeleteProps {
 }
 const Delete = (props: DeleteProps) => {
   return (
-    <button className="button btn-danger"
+    <button
+      className="button btn-danger"
       value={props.data}
-      onClick={props.handleDelete}>Delete Todo</button>
+      onClick={props.handleDelete}
+    >Delete Todo
+    </button>
   );
-}
+};
 export default Delete;

@@ -1,4 +1,4 @@
-/**Global imports */
+/** Global imports */
 import * as React from 'react';
 
 const Search = props => {
@@ -11,8 +11,9 @@ const Search = props => {
         type="text"
         name="searchbar"
         onChange={props.handleSearch}
-        placeholder="search todo" />
+        placeholder="search todo" 
+      />
     </div>
   );
-}
+};
 export default Search;
