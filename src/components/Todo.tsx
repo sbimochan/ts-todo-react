@@ -1,40 +1,60 @@
-/**Global imports */
+/** Global imports */
 import * as React from 'react';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
+import * as ReactPaginate from 'react-paginate';
 import { DragDropContext } from 'react-dnd';
-import  BigCalendar from 'react-big-calendar';
+import BigCalendar from 'react-big-calendar';
 import HTML5Backend from 'react-dnd-html5-backend';
-import connect from 'react-redux/lib/connect/connect';
+import { connect } from 'react-redux';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-/**Local imports */
+
+/** Local imports */
 import './Todo.css';
 import Create from './Create';
 import Search from './Search';
+import { Moment } from 'moment';
 import TodoList from './TodoList';
 import UpdateBox from './UpdateBox';
 import TagsRelated from './TagsRelated';
 import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
 
+interface Momentdd extends Moment {
+  _d?: Date;
+}
+
 export interface TodoProps {
   dispatch: any;
   todoList: number[];
   tags: number[];
-  pageCount: number[];
+  pageCount: number;
   editTodo: string;
   editTodoId: number;
-  tagsList: string[];
-  startDate: Date;
+  tagsList: {
+    data: number[];
+  };
+  startDate: Momentdd;
   description: string;
   togglePopUp: boolean;
-  tagsRelated: string[];
+  tagsRelated: number[];
+  handlePageClick(event: {}):void;
 }
+
+function ReactPaginateInterface(props: any) {
+  return <ReactPaginate {...props} />;
+}
+
+function CreateProps(props: any){
+  return <Create {...props} />;
+}
+// interface X {
+//   id: number;
+// }
 
 class Todo extends React.Component<TodoProps, any> {
   userId = localStorage.getItem('userId');
-  getData = todoData => this.editTodo(todoData);
+  getData = (todoData: {}) => this.editTodo(todoData);
   handleLogout = event => {
     ApiServices.logout('logout');
     this.props.dispatch(todoActions.isAuth(false));
@@ -48,7 +68,7 @@ class Todo extends React.Component<TodoProps, any> {
     this.props.dispatch(todoActions.changeDescription(event.target.value));
   handleInputChangeOfUpdate = (event: any) =>
     this.props.dispatch(todoActions.editTodo(event.target.value));
-  handleDatePicker = date =>
+  handleDatePicker = (date: any) =>
     this.props.dispatch(todoActions.changeDatePicker(date));
   handleSubmit = (event: any) => {
     event.preventDefault();
@@ -68,9 +88,9 @@ class Todo extends React.Component<TodoProps, any> {
       'users/' + this.userId + '/todo',
       event.target.value
     ).then((result: {
-      todo:number[];
-      pagination:{
-        pageCount:number;
+      todo: number[];
+      pagination: {
+        pageCount: number;
       };
     }) => {
       this.props.dispatch(todoActions.changeTodoList(result.todo));
@@ -90,7 +110,7 @@ class Todo extends React.Component<TodoProps, any> {
           this.onChangeTodoList(todoList.todo);
         }
       )
-    );
+      );
   };
 
   handleEdit = (event: any) => {
@@ -99,9 +119,7 @@ class Todo extends React.Component<TodoProps, any> {
     this.getData(event.target.value);
     this.props.dispatch(todoActions.changeTogglePopUp(true));
   };
-  reorderTodo = (itemId, index) => {
-    console.log('todo', itemId);
-
+  reorderTodo = (itemId: number, index: string) => {
     this.props.dispatch(todoActions.reorderItem(itemId, index));
   };
   handleUpdate = (event: any) => {
@@ -120,17 +138,20 @@ class Todo extends React.Component<TodoProps, any> {
           this.props.dispatch(todoActions.changeTogglePopUp(false));
         }
       )
-    );
+      );
   };
-  reorderList = (array, value, positionChange) => {
+  
+  reorderList = (array: any, value: number, positionChange: number) => {
     let oldIndex = array.findIndex(x => x.id === value);
     let arrayClone = array.slice();
     arrayClone.splice(positionChange, 0, arrayClone.splice(oldIndex, 1)[0]);
     return arrayClone;
   };
 
-  handlePageClick = data => {
-    data.selected = data.selected + 1; //hack code
+  handlePageClick = (data: {
+    selected: string;
+  }) => {
+    data.selected = data.selected + 1; // hack code
     this.props.dispatch(todoActions.handlePagination(data.selected));
     ApiServices.paginateTodo(
       'users/' + this.userId + '/todo',
@@ -139,7 +160,7 @@ class Todo extends React.Component<TodoProps, any> {
       todo: string[];
     }) =>
       this.props.dispatch(todoActions.changeTodoList(result.todo))
-    );
+      );
   };
   componentDidMount() {
     ApiServices.fetchPages('users/' + this.userId + '/todo').then(todoList => {
@@ -152,9 +173,9 @@ class Todo extends React.Component<TodoProps, any> {
   }
   tagLink = (event: any) => {
     event.preventDefault();
-    ApiServices.todosRelated('/tags', event.target.value).then((todos:{
-      data:{
-        todos:string[];
+    ApiServices.todosRelated('/tags', event.target.value).then((todos: {
+      data: {
+        todos: string[];
       }
     }) =>
       this.props.dispatch(todoActions.tagsRelated(todos.data.todos))
@@ -164,7 +185,7 @@ class Todo extends React.Component<TodoProps, any> {
     const tags = this.props.tags;
     let index;
     if (event.target.checked) {
-      tags.push(+event.target.value); //+ is to convert into integer
+      tags.push(+event.target.value); // + is to convert into integer
     } else {
       index = tags.indexOf(+event.target.value);
       tags.splice(index, 1);
@@ -174,7 +195,7 @@ class Todo extends React.Component<TodoProps, any> {
 
   render() {
     BigCalendar.momentLocalizer(moment);
-    const events = this.props.todoList.map((data:any, index:number) => ({
+    const events = this.props.todoList.map((data: any, index: number) => ({
       allDay: true,
       sakkyo: data.createdAt,
       suruvayo: data.createdAt,
@@ -207,7 +228,7 @@ class Todo extends React.Component<TodoProps, any> {
             editTodo={this.editTodo}
             handleDelete={this.handleDelete}
             onDeleteTodo={this.onChangeTodoList}
-            reorderList={this.reorderList}
+            // reorderList={this.reorderList}
             reorderTodo={this.reorderTodo}
           />
         ))}
@@ -216,7 +237,7 @@ class Todo extends React.Component<TodoProps, any> {
           startAccessor="suruvayo"
           endAccessor="sakkyo"
         />
-        <ReactPaginate
+        <ReactPaginateInterface
           previousLabel={'previous'}
           nextLabel={'next'}
           breakLabel={<a href="">...</a>}
@@ -230,7 +251,7 @@ class Todo extends React.Component<TodoProps, any> {
           activeClassName={'active'}
         />
 
-        <Create
+        <CreateProps
           handleSubmit={this.handleSubmit}
           fetchTags={this.props.tagsList}
           startDate={this.props.startDate}

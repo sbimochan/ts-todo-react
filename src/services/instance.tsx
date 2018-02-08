@@ -8,7 +8,7 @@ let instance = Axios.create({
 });
 // let instance = Axios.create({ baseURL: 'http://d7718283.ngrok.io/api/', timeout: 1000 });
 
-export function getTokenHeader(type) {
+export function getTokenHeader(type: string) {
   let token = localStorage.getItem('accessToken');
   if (type === 'refreshToken') {
     token = localStorage.getItem('refreshToken');

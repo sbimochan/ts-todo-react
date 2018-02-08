@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import * as todoActions from './actions/action';
 import { Redirect } from 'react-router-dom';
 
-export interface Props{
+export interface Props {
   dispatch: any;
-  isAuth:string;
+  isAuth: string;
 }
 
-const Login = (props:Props) => {
-  const handleLogin = (values:any) => {
+const Login = (props: Props) => {
+  const handleLogin = (values: any) => {
     values.preventDefault();
     const username = values.target.username.value;
     const password = values.target.password.value;
@@ -24,9 +24,9 @@ const Login = (props:Props) => {
     axios
       .login('login', data)
       .then((response: {
-        accessToken:string;
-        refreshToken:string;
-        userId:string;
+        accessToken: string;
+        refreshToken: string;
+        userId: string;
       }) => {
         const { accessToken, refreshToken, userId } = response;
         // console.log(userId);
@@ -43,15 +43,15 @@ const Login = (props:Props) => {
         }
       });
   };
-  
-  if(props.isAuth === 'true'){
-    return <Redirect to= '/todo'/>;
-  } 
-   else{
+
+  if (props.isAuth === 'true') {
+    return <Redirect to='/todo' />;
+  }
+  else {
     return <LoginForm handleLogin={handleLogin} />;
   }
 };
-const mapStateToProps = (state:{}) => {
+const mapStateToProps = (state: {}) => {
   return state;
 };
 export default connect(mapStateToProps)(Login);

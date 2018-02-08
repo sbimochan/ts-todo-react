@@ -1,5 +1,8 @@
 import * as moment from 'moment';
 
+export interface ReorderList {
+  id: number;
+}
 const initialState = {
   todoList: [],
   description: '',
@@ -50,11 +53,11 @@ export default (state = initialState, action) => {
     case 'CHANGE_DATE_PICKER':
       return { ...state, startDate: action.payload };
     case 'REORDER_ITEM':
-      return { ...state, todoList:reorderList([...state.todoList],action.id,action.index)}
+      return { ...state, todoList: reorderList([...state.todoList], action.id, action.index) }
     default:
       return state;
   }
-  function reorderList(array, value, positionChange) {
+  function reorderList(array: ReorderList[], value: number, positionChange: number) {
     let oldIndex = array.findIndex((x) => x.id === value);
     let arrayClone = array.slice();
     arrayClone.splice(positionChange, 0, arrayClone.splice(oldIndex, 1)[0]);

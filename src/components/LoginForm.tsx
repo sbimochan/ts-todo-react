@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-const LoginForm = props => {
+const LoginForm = (props: {
+  handleLogin(event: {}): void;
+}) => {
   
   return (
     <div>

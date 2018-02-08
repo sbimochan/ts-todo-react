@@ -22,22 +22,21 @@ export interface Props {
       id: number;
       user: string;
     };
-    tags:Array<{
+    tags: Array<{
       id: number,
       tagName: string;
     }>;
   };
   reorderTodo: any;
   index: number;
-  handleDelete(event: {}): void;
-  handleEdit: any;
   tagLink: any;
   connectDropTarget;
   connectDragPreview;
   connectDragSource;
-  
-}
+  handleDelete(event: {}): void;
+  handleEdit(event: {}): void;
 
+}
 
 function User(props) {
   return (
@@ -112,7 +111,7 @@ const TodoList = (props: Props) => {
             <Edit data={props.data} handleEdit={props.handleEdit} />
           </div>
           <ul className="tagsList">
-            {props.data.tags.map((tag, index:number) => (
+            {props.data.tags.map((tag, index: number) => (
               <li
                 className="tag"
                 key={index}
