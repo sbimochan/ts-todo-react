@@ -19,6 +19,7 @@ import UpdateBox from './UpdateBox';
 import TagsRelated from './TagsRelated';
 import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
+import { ChangeTodoList, FetchTags, TagsRelatedType } from './domains/actionTypes';
 
 interface Momentdd extends Moment {
   _d?: Date;
@@ -57,17 +58,17 @@ function TodoListInterface(props: any) {
 
 class Todo extends React.Component<TodoProps, any> {
   userId = localStorage.getItem('userId');
-  getData = (todoData: {}) => this.editTodo(todoData);
+  getData = (todoData: string) => this.editTodo(todoData);
   handleLogout = event => {
     ApiServices.logout('logout');
-    this.props.dispatch(todoActions.isAuth(false));
+    this.props.dispatch(todoActions.isAuth('false'));
   }
 
   getTodoId = (id: number) => this.props.dispatch(todoActions.getTodoId(id));
   
-  editTodo = (todoData: {}) => this.props.dispatch(todoActions.editTodo(todoData));
+  editTodo = (todoData: string) => this.props.dispatch(todoActions.editTodo(todoData));
 
-  onChangeTodoList = (todoList: number[]) =>
+  onChangeTodoList = (todoList: ChangeTodoList[]) =>
     this.props.dispatch(todoActions.changeTodoList(todoList))
   handleInputChange = (event: any) =>
     this.props.dispatch(todoActions.changeDescription(event.target.value))
@@ -79,7 +80,7 @@ class Todo extends React.Component<TodoProps, any> {
     event.preventDefault();
     ApiServices.addTodo('users/' + this.userId + '/todo', this.props).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        (todoList: { todo: number[] }) => {
+        (todoList: { todo: ChangeTodoList[] }) => {
           this.onChangeTodoList(todoList.todo);
         }
       )
@@ -93,7 +94,7 @@ class Todo extends React.Component<TodoProps, any> {
       'users/' + this.userId + '/todo',
       event.target.value
     ).then((result: {
-      todo: number[];
+      todo: ChangeTodoList[];
       pagination: {
         pageCount: number;
       };
@@ -111,7 +112,7 @@ class Todo extends React.Component<TodoProps, any> {
       event.target.value
     ).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        (todoList: { todo: number[] }) => {
+        (todoList: { todo: ChangeTodoList[] }) => {
           this.onChangeTodoList(todoList.todo);
         }
       )
@@ -120,7 +121,7 @@ class Todo extends React.Component<TodoProps, any> {
 
   handleEdit = (event: any) => {
     event.preventDefault();
-    this.getTodoId(event.target.dataset.key);
+    this.getTodoId(+event.target.dataset.key);
     this.getData(event.target.value);
     this.props.dispatch(todoActions.changeTogglePopUp(true));
   }
@@ -138,7 +139,7 @@ class Todo extends React.Component<TodoProps, any> {
       formatData
     ).then(() =>
       ApiServices.fetchPages('users/' + this.userId + '/todo').then(
-        (todoList: { todo: number[] }) => {
+        (todoList: { todo: ChangeTodoList[] }) => {
           this.onChangeTodoList(todoList.todo);
           this.props.dispatch(todoActions.changeTogglePopUp(false));
         }
@@ -154,7 +155,7 @@ class Todo extends React.Component<TodoProps, any> {
   }
 
   handlePageClick = (data: {
-    selected: string;
+    selected: number;
   }) => {
     data.selected = data.selected + 1; // hack code
     this.props.dispatch(todoActions.handlePagination(data.selected));
@@ -162,7 +163,7 @@ class Todo extends React.Component<TodoProps, any> {
       'users/' + this.userId + '/todo',
       data.selected
     ).then((result: {
-      todo: string[];
+      todo: ChangeTodoList[];
     }) =>
       this.props.dispatch(todoActions.changeTodoList(result.todo))
     );
@@ -173,7 +174,7 @@ class Todo extends React.Component<TodoProps, any> {
       this.props.dispatch(todoActions.changeTodoList(todoList.todo));
       this.props.dispatch(todoActions.pageCount(todoList.pagination.pageCount));
     });
-    ApiServices.fetchTags('/tags').then(tags =>
+    ApiServices.fetchTags('/tags').then((tags: {data: FetchTags[]}) =>
       this.props.dispatch(todoActions.fetchTags(tags))
     );
   }
@@ -181,7 +182,7 @@ class Todo extends React.Component<TodoProps, any> {
     event.preventDefault();
     ApiServices.todosRelated('/tags', event.target.value).then((todos: {
       data: {
-        todos: string[];
+        todos: TagsRelatedType;
       }
     }) =>
       this.props.dispatch(todoActions.tagsRelated(todos.data.todos))

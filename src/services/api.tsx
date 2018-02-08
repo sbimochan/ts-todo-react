@@ -57,7 +57,7 @@ export function searchTodo(page: string, query: string) {
   let encodedURI = window.encodeURI(baseurl + page + '?search=' + query);
   return instance.get(encodedURI).then((response: { data: {} }) => response.data);
 }
-export function paginateTodo(page: string, query: string) {
+export function paginateTodo(page: string, query: number) {
   let encodedURI = window.encodeURI(baseurl + page + '?page=' + query);
   return instance.get(encodedURI).then((response: { data: {} }) => response.data);
 }

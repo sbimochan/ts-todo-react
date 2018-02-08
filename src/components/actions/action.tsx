@@ -1,82 +1,86 @@
-export const changeTodoList = (payload: {}) => {
+
+import { ChangeTodoList, FetchTags, TagsRelatedType, Momentdd } from '../domains/actionTypes';
+
+export const changeTodoList = (payload: ChangeTodoList[]) => {
   return {
     type: 'CHANGE_TODO_LIST',
     payload
   };
 };
-export const changeTogglePopUp = (payload: {}) => {
+export const changeTogglePopUp = (payload: boolean) => {
   return {
     type: 'CHANGE_TOGGLE_POPUP',
     payload
   };
 };
-export const checkboxChange = (payload: {}) => {
+export const checkboxChange = (payload: number[]) => {
   return {
     type: 'CHECKBOX_CHANGE',
     payload
   };
 };
-export const fetchTags = (payload: {}) => {
+export const fetchTags = (payload: { data: FetchTags[] }) => {
   return {
     type: 'FETCH_TAGS',
     payload
   };
 };
-export const editTodo = (payload: {}) => {
+export const editTodo = (payload: string) => {
   return {
     type: 'EDIT_TODO',
     payload
   };
 };
-export const getTodoId = (payload: {}) => {
+export const getTodoId = (payload: number) => {
   return {
     type: 'GET_TODO_ID',
     payload
   };
 };
-export const changeDescription = (payload: {}) => {
+export const changeDescription = (payload: string) => {
   return {
     type: 'CHANGE_DESCRIPTION',
     payload
   };
 };
-export const handleSearch = (payload: {}) => {
+export const handleSearch = (payload: string) => {
   return {
     type: 'HANDLE_SEARCH',
     payload
   };
 };
-export const handlePagination = (payload: {}) => {
+export const handlePagination = (payload: number) => {
   return {
     type: 'HANDLE_PAGINATION',
     payload
   };
 };
-export const pageCount = (payload: {}) => {
+export const pageCount = (payload: number) => {
   return {
     type: 'PAGE_COUNT',
     payload
   };
 };
-export const tagsRelated = (payload: {}) => {
+export const tagsRelated = (payload: TagsRelatedType) => {
   return {
     type: 'TAGS_RELATED',
     payload
   };
 };
-export const isAuth = (payload: {}) => {
+// using string because of localstorage
+export const isAuth = (payload: string) => {
   return {
     type: 'IS_AUTH',
     payload
   };
 };
-export const userId = (payload: {}) => {
+export const userId = (payload: string) => {
   return {
     type: 'USER_ID',
     payload
   };
 };
-export const changeDatePicker = (payload: {}) => {
+export const changeDatePicker = (payload: Momentdd) => {
   return {
     type: 'CHANGE_DATE_PICKER',
     payload
