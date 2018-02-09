@@ -14,7 +14,7 @@ const Edit = (props: EditProps) => {
     <div className="editButton">
       <button 
         className="button btn-warning"
-        data-key={props.data.id}
+        data-key={props.data.id} // here it gets string
         value={props.data.description}
         onClick={props.handleEdit}
       >Edit Todo

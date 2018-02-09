@@ -105,7 +105,6 @@ const TodoList = (props: Props) => {
           <div className="actions">
             <Delete
               data={props.data.id}
-              // index={props.index}
               handleDelete={props.handleDelete}
             />
             <Edit data={props.data} handleEdit={props.handleEdit} />

@@ -20,6 +20,7 @@ import TagsRelated from './TagsRelated';
 import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
 import { ChangeTodoList, FetchTags, TagsRelatedType } from './domains/actionTypes';
+import * as stateTypes from './domains/stateType';
 
 interface Momentdd extends Moment {
   _d?: Date;
@@ -27,18 +28,18 @@ interface Momentdd extends Moment {
 
 export interface TodoProps {
   dispatch: any;
-  todoList: number[];
+  todoList: stateTypes.TodoListInterface[];
   tags: number[];
   pageCount: number;
   editTodo: string;
   editTodoId: number;
   tagsList: {
-    data: number[];
+    data: stateTypes.TagsList[];
   };
   startDate: Momentdd;
   description: string;
   togglePopUp: boolean;
-  tagsRelated: number[];
+  tagsRelated: stateTypes.TagsRelatedInterface[];
   handlePageClick(event: {}): void;
 }
 
@@ -193,9 +194,9 @@ class Todo extends React.Component<TodoProps, any> {
     const tags = this.props.tags;
     let index;
     if (event.target.checked) {
-      tags.push(+event.target.value); // + is to convert into integer
+      tags.push(event.target.value); // + is to convert into integer
     } else {
-      index = tags.indexOf(+event.target.value);
+      index = tags.indexOf(event.target.value);
       tags.splice(index, 1);
     }
     this.props.dispatch(todoActions.checkboxChange(tags));

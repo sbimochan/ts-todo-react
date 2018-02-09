@@ -1,8 +1,9 @@
 import * as moment from 'moment';
-
+import { StateType } from '.././components/domains/stateType';
 export interface ReorderList {
   id: number;
 }
+
 const initialState = {
   todoList: [],
   description: '',
@@ -10,7 +11,7 @@ const initialState = {
   editTodoId: null,
   searchbar: '',
   tags: [],
-  tagsList: [],
+  tagsList: { data: []},
   togglePopUp: false,
   pagination: 1,
   pageCount: 1,
@@ -22,7 +23,7 @@ const initialState = {
 export const DragTypes = {
   ITEM: 'item',
 };
-export default (state = initialState, action) => {
+export default (state: StateType = initialState, action) => {
   switch (action.type) {
     case 'CHANGE_TODO_LIST':
       return { ...state, todoList: action.payload };
