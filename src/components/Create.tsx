@@ -3,9 +3,9 @@ import * as React from 'react';
 
 /* Local imports */
 import './Todo.css';
+import { Moment } from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Moment } from 'moment';
 
 interface Momentdd extends Moment {
   _d?: Date;
@@ -27,7 +27,7 @@ export interface CreateProps {
   handleSubmit(event: {}): void;
 }
 
-function Input(props: {
+export function Input(props: {
   type: string;
   name: string;
   value: number;
@@ -35,28 +35,15 @@ function Input(props: {
 }) {
   return <input {...props} />;
 }
-function DatePickerInterface(props: {
+
+export function DatePickerInterface(props: {
   selected: Momentdd;
   placeholderText: string;
   onChange(event: any): void;
 }) {
   return <DatePicker {...props} />;
 }
-// export interface CreateInterface {
-//   value: string;
-//   fetchTags: {
-//     data: Array<{
-//       id: number;
-//       tagName: string;
-//       createdAt: string;
-//     }>;
-//   };
-//   startDate: any;
-//   checkboxChange(event: {}): void;
-//   handleDatePicker(event: {}): void;
-//   handleInputChange(event: {}): void;
-//   handleSubmit(event: {}): void;
-// }
+
 const Create = (props: CreateProps) => {
   return (
     <div className="createForm">

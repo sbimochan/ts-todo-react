@@ -17,7 +17,7 @@ export interface Props {
   data: {
     id: number;
     description: string;
-    createdAt: any;
+    createdAt: Date;
     user: {
       id: number;
       user: string;

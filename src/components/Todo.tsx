@@ -1,12 +1,12 @@
 /** Global imports */
 import * as React from 'react';
 import * as moment from 'moment';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as ReactPaginate from 'react-paginate';
 import { DragDropContext } from 'react-dnd';
 import BigCalendar from 'react-big-calendar';
+import * as ReactPaginate from 'react-paginate';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { connect } from 'react-redux';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 /** Local imports */
@@ -19,8 +19,8 @@ import UpdateBox from './UpdateBox';
 import TagsRelated from './TagsRelated';
 import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
-import { ChangeTodoList, FetchTags, TagsRelatedType } from './domains/actionTypes';
 import * as stateTypes from './domains/stateType';
+import { ChangeTodoList, FetchTags, TagsRelatedType } from './domains/actionTypes';
 
 interface Momentdd extends Moment {
   _d?: Date;

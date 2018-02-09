@@ -1,9 +1,9 @@
 import * as React from 'react';
 import LoginForm from './LoginForm';
-import * as axios from '../services/api';
 import { connect } from 'react-redux';
-import * as todoActions from './actions/action';
+import * as axios from '../services/api';
 import { Redirect } from 'react-router-dom';
+import * as todoActions from './actions/action';
 
 export interface Props {
   dispatch: any;
