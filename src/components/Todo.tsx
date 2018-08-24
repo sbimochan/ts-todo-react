@@ -194,7 +194,7 @@ class Todo extends React.Component<TodoProps, any> {
     const tags = this.props.tags;
     let index;
     if (event.target.checked) {
-      tags.push(event.target.value); // + is to convert into integer
+      tags.push(event.target.value); 
     } else {
       index = tags.indexOf(event.target.value);
       tags.splice(index, 1);
